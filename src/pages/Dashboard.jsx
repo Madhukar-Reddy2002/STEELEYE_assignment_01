@@ -20,19 +20,25 @@ const Dashboard = () => {
   const [selectedOrderDetails, setSelectedOrderDetails] = useState({});
   const [selectedOrderTimeStamps, setSelectedOrderTimeStamps] = useState({});
   const [fetchedId, setFetchedId] = useState("");
-  const [len, setlen] = useState(mockData.results.length);
+  const len = mockData.results.length;
   mockData.results.forEach(e => {
     timestamps.results.forEach(i =>{
-      if (i["&id"] == e["&id"]){
+      if (i["&id"] === e["&id"]){
         e.OrderSubmitted = i.timestamps.orderSubmitted;
        //console.log(e.OrderSubmitted);
       }
     })
   });
-  const setting=(e) =>{
-   setSelectedOrderDetails(mockData.results[0].executionDetails);
-   setSelectedOrderTimeStamps(timestamps.results[0].timestamps);
-  }
+  useEffect(
+    ()=>{
+      if(fetchedId == "SE|20221104|179|9:1:NEWO"){
+      setSelectedOrderDetails(mockData.results[0].executionDetails)
+      setSelectedOrderTimeStamps(timestamps.results[0].timestamps)}
+      if(fetchedId == "SE|202211454|179|9:1:NEWO"){
+        setSelectedOrderDetails(mockData.results[5].executionDetails)
+        setSelectedOrderTimeStamps(timestamps.results[5].timestamps)}
+    }
+  )
 
   return (
     <div>
@@ -63,7 +69,7 @@ const Dashboard = () => {
             key="time"
           />
         </div>
-        <List rows={mockData.results} data={currency} text = {searchText} key={mockData.results.key} oncluck={(e) => {setting(e)}}/>
+        <List rows={mockData.results} data={currency} text = {searchText} key={mockData.results.key} oncluck={(e) =>setFetchedId(e)}/>
       </div>
     </div>
   );
