@@ -5,11 +5,12 @@ import ListHeader from "./ListHeader";
 import ListHeaderCell from "./ListHeaderCell";
 
 import styles from "./List.module.css";
+import { useState } from "react";
 
 const List = ({ rows, data, text, oncluck}) => {
+  const [fId, setfId] =useState();
   const onCluck = () =>{
-    oncluck("SE|20221104|179|9:1:NEWO");
-    console.log('click tBody');
+    oncluck(fId);
   }
   return (
     <table className={styles.container}>
@@ -24,7 +25,7 @@ const List = ({ rows, data, text, oncluck}) => {
       </thead>
       <tbody onClick={onCluck}>
         {rows.filter((i) => i["&id"].includes(text)).map((row) => (
-          <ListRow key={row.key}>
+          <ListRow key={row.key} fetchid ={(e) =>setfId(e)}>
             <ListRowCell>
               {row["&id"]}
             </ListRowCell>
